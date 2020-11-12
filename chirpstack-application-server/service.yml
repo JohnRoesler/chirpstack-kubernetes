@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chirpstack-application-server
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/metrics"
+    prometheus.io/port: "8101"
+  labels:
+    app: chirpstack-application-server
+spec:
+  clusterIP: "None"
+  ports:
+    - name: ui-port
+      protocol: TCP
+      port: 443
+      targetPort: 8080
+    - name: join-port
+      protocol: TCP
+      port: 8003
+      targetPort: 8003
+    - name: http-port
+      protocol: TCP
+      port: 8001
+      targetPort: 8001
+    - name: monitoring-port
+      protocol: TCP
+      port: 8101
+      targetPort: 8101
+  selector:
+    app: chirpstack-application-server

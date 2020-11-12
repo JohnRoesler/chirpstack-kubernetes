@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chirpstack-gateway-bridge
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/metrics"
+    prometheus.io/port: "8004"
+  labels:
+    app: chirpstack-gateway-bridge
+spec:
+  type: NodePort
+  ports:
+    - name: udp-np
+      nodePort: 31701
+      port: 1700
+      protocol: UDP
+      targetPort: 1700
+  selector:
+    app: chirpstack-gateway-bridge

@@ -1,0 +1,81 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: chirpstack-application-server
+  labels:
+    app: chirpstack-application-server
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: chirpstack-application-server
+  template:
+    metadata:
+      labels:
+        app: chirpstack-application-server
+    spec:
+      containers:
+        - name: chirpstack-application-server
+          image: chirpstack/chirpstack-application-server:3.11.1
+          env:
+            - name: POSTGRESQL__DSN
+              valueFrom:
+                secretKeyRef:
+                  name: chirpstack-application-server-secrets
+                  key: postgresql_dsn
+            - name: REDIS__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: chirpstack-application-server-secrets
+                  key: redis_password
+            - name: APPLICATION_SERVER__EXTERNAL_API__JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: chirpstack-application-server-secrets
+                  key: jwt_secret
+            - name: APPLICATION_SERVER__INTEGRATION__MQTT__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: chirpstack-application-server-secrets
+                  key: mqtt_password
+            - name: APPLICATION_SERVER__INTEGRATION__MQTT__CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8101
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 2
+            failureThreshold: 5
+          ports:
+            - name: ui-port
+              containerPort: 8080
+            - name: join-port
+              containerPort: 8003
+            - name: http-port
+              containerPort: 8001
+            - name: monitoring-port
+              containerPort: 8101
+          resources:
+            limits:
+              cpu: "3"
+              memory: 1500Mi
+            requests:
+              cpu: "2"
+              memory: 750Mi
+          volumeMounts:
+            - name: chirpstack-application-server
+              mountPath: /.config/chirpstack-application-server/chirpstack-application-server.toml
+              subPath: chirpstack-application-server.toml
+      volumes:
+        - name: chirpstack-application-server
+          configMap:
+            name: chirpstack-application-server

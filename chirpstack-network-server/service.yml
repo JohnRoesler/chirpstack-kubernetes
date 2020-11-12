@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: chirpstack-network-server
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: "/metrics"
+    prometheus.io/port: "8004"
+  labels:
+    app: chirpstack-network-server
+spec:
+  ports:
+    - name: port
+      protocol: TCP
+      port: 8000
+      targetPort: 8000
+  selector:
+    app: chirpstack-network-server

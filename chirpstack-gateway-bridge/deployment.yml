@@ -1,0 +1,50 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: chirpstack-gateway-bridge
+spec:
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: chirpstack-gateway-bridge
+  template:
+    metadata:
+      labels:
+        app: chirpstack-gateway-bridge
+    spec:
+      containers:
+        - name: chirpstack-gateway-bridge
+          image: chirpstack/chirpstack-gateway-bridge:3.9.2
+          env:
+            - name: INTEGRATION__MQTT__AUTH__GENERIC__PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: chirpstack-gateway-bridge-secrets
+                  key: MQTT_PASSWORD
+            - name: INTEGRATION__MQTT__AUTH__GENERIC__CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          ports:
+            - name: tcp
+              containerPort: 8004
+          resources:
+            limits:
+              cpu: 70m
+              memory: 100Mi
+            requests:
+              cpu: 10m
+              memory: 50Mi
+          volumeMounts:
+            - name: chirpstack-gateway-bridge
+              mountPath: /.config/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+              subPath: chirpstack-gateway-bridge.toml
+      volumes:
+        - name: chirpstack-gateway-bridge
+          configMap:
+            name: chirpstack-gateway-bridge

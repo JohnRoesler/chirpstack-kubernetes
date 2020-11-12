@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: chirpstack-application-server
+  annotations:
+    ingress.kubernetes.io/ssl-passthrough: "false"
+  labels:
+    app: chirpstack-application-server
+spec:
+  # This is required to tell the ingress to respond to HTTPS
+  tls:
+    - hosts:
+        - chirpstack-application-server.<your_domain>
+  rules:
+    - host: chirpstack-application-server.<your_domain>
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: chirpstack-application-server
+              servicePort: 443
