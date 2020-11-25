@@ -203,7 +203,7 @@ data:
         # Set the "clean session" flag in the connect message when this client
         # connects to an MQTT broker. By setting this flag you are indicating
         # that no messages saved by the broker for this client should be delivered.
-        clean_session=true
+        clean_session=false
 
         # Client ID
         #
