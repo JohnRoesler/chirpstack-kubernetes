@@ -73,7 +73,7 @@ spec:
               memory: 750Mi
           volumeMounts:
             - name: chirpstack-application-server
-              mountPath: /.config/chirpstack-application-server/chirpstack-application-server.toml
+              mountPath: /etc/chirpstack-application-server/chirpstack-application-server.toml
               subPath: chirpstack-application-server.toml
       volumes:
         - name: chirpstack-application-server
