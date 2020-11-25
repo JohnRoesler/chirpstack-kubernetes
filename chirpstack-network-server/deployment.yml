@@ -54,7 +54,7 @@ spec:
               memory: 1000Mi
           volumeMounts:
             - name: chirpstack-network-server
-              mountPath: /.config/chirpstack-network-server/chirpstack-network-server.toml
+              mountPath: /etc/chirpstack-network-server/chirpstack-network-server.toml
               subPath: chirpstack-network-server.toml
       volumes:
         - name: chirpstack-network-server

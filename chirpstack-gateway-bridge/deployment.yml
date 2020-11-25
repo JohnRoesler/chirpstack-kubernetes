@@ -42,7 +42,7 @@ spec:
               memory: 50Mi
           volumeMounts:
             - name: chirpstack-gateway-bridge
-              mountPath: /.config/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
+              mountPath: /etc/chirpstack-gateway-bridge/chirpstack-gateway-bridge.toml
               subPath: chirpstack-gateway-bridge.toml
       volumes:
         - name: chirpstack-gateway-bridge
