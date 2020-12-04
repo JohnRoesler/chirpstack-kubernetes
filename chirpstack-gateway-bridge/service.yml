@@ -12,7 +12,7 @@ spec:
   type: NodePort
   ports:
     - name: udp-np
-      nodePort: 31701
+      nodePort: 30001
       port: 1700
       protocol: UDP
       targetPort: 1700
