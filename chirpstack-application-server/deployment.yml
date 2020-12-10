@@ -66,11 +66,11 @@ spec:
               containerPort: 8101
           resources:
             limits:
-              cpu: "3"
-              memory: 1500Mi
+              cpu: 500m
+              memory: 500Mi
             requests:
-              cpu: "2"
-              memory: 750Mi
+              cpu: 250m
+              memory: 250Mi
           volumeMounts:
             - name: chirpstack-application-server
               mountPath: /etc/chirpstack-application-server/chirpstack-application-server.toml

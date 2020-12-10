@@ -35,10 +35,10 @@ spec:
               containerPort: 8004
           resources:
             limits:
-              cpu: 70m
+              cpu: 100m
               memory: 100Mi
             requests:
-              cpu: 10m
+              cpu: 50m
               memory: 50Mi
           volumeMounts:
             - name: chirpstack-gateway-bridge

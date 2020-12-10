@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: chirpstack-network-server
 spec:
-  replicas: 3
+  replicas: 2
   strategy:
     rollingUpdate:
       maxSurge: 0
@@ -47,11 +47,11 @@ spec:
               containerPort: 8004
           resources:
             limits:
-              cpu: "3"
-              memory: 1500Mi
+              cpu: 500m
+              memory: 500Mi
             requests:
-              cpu: "2"
-              memory: 1000Mi
+              cpu: 250m
+              memory: 250Mi
           volumeMounts:
             - name: chirpstack-network-server
               mountPath: /etc/chirpstack-network-server/chirpstack-network-server.toml
